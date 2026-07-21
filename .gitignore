@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+data/*.csv
+inbox/*.png
+inbox/*.jpg
+inbox/*.jpeg
+inbox/*.webp
+inbox/processed/
+!inbox/.gitkeep
+*.json
+!config/*.json
+.DS_Store

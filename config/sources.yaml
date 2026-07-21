@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------
+# Data sources for Job Radar. Toggle each with `enabled`.
+# `type` maps to a fetcher module in radar/sources/.
+# ---------------------------------------------------------------------------
+sources:
+  # Simplify + Pitt CSC. Updated hourly. Broadest coverage (SWE, quant, AI/ML).
+  # NOTE: as of Jul 2026 Simplify has not created a Summer2027 repo yet, so we
+  # point at the live Summer2026 repo. When SimplifyJobs/Summer2027-Internships
+  # goes live, just swap 2026 -> 2027 in the URL below.
+  - name: simplify
+    type: github_json
+    enabled: true
+    url: https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/.github/scripts/listings.json
+
+  # Vansh & Ouckah / CSCareers. Summer 2027 cycle is live.
+  - name: vanshb03
+    type: github_json
+    enabled: true
+    url: https://raw.githubusercontent.com/vanshb03/Summer2027-Internships/dev/.github/scripts/listings.json
+
+  # Northwestern FinTech - quant-specific (SWE / QR / QT per firm). Summer 2027.
+  - name: nufintech_quant
+    type: quant_repo
+    enabled: true
+    url: https://raw.githubusercontent.com/northwesternfintech/2027QuantInternships/main/README.md
+
+  # SpeedyApply - strong FAANG+/quant SWE internship coverage (USA). Updated daily.
+  - name: speedyapply_swe
+    type: speedyapply
+    enabled: true
+    category: Software
+    url: https://raw.githubusercontent.com/speedyapply/2027-SWE-College-Jobs/main/README.md
+
+  # SpeedyApply - AI/ML college internships (USA).
+  - name: speedyapply_ai
+    type: speedyapply
+    enabled: true
+    category: AI/ML
+    url: https://raw.githubusercontent.com/speedyapply/2027-AI-College-Jobs/main/README.md
+
+  # AI-lab career pages for fellowship / residency / research roles that never
+  # hit the internship repos. Requires an LLM key (OPENAI_API_KEY). Off by
+  # default because career pages are often JS-rendered and extraction is best-effort.
+  - name: ai_lab_pages
+    type: extra_pages
+    enabled: false
+    model: gpt-4o-mini
+    pages:
+      - https://openai.com/careers/search/
+      - https://www.anthropic.com/careers
+      - https://boards.greenhouse.io/anthropic
+      - https://job-boards.greenhouse.io/anthropic

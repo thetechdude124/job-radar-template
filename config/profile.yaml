@@ -1,0 +1,309 @@
+# ---------------------------------------------------------------------------
+# Job Radar profile - who you are and what you want to see.
+# Everything here is used by the filter agent. Tweak freely.
+# ---------------------------------------------------------------------------
+
+# Recruiting cycle to target. Listings whose term/season clearly belongs to a
+# different cycle are dropped (events are exempt).
+term:
+  accepted_keywords: ["summer 2027", "2027", "summer"]
+  # If a listing has no term info at all, keep it (True) or drop it (False).
+  keep_when_unknown: true
+
+# Internship-first. Full-time roles are only surfaced when the company is on the
+# s_tier list below. Nonlinear "Event" items are always kept regardless.
+employment:
+  internships: true
+  fulltime_if_top_tier: true
+
+# ---------------------------------------------------------------------------
+# Role types. Each is independently toggg-able. A listing is kept only if its
+# title/category matches the keywords of at least one ENABLED role type.
+# The order here is the priority order used when tagging the Role Type column.
+# ---------------------------------------------------------------------------
+role_types:
+  # quant is listed first so quant-research roles are labeled quant, not ai_research.
+  quant:
+    enabled: true
+    keywords:
+      - quant
+      - quantitative
+      - trader
+      - trading
+      - "qr "
+      - "qt "
+      - systematic
+      - algo dev
+      - algorithm development
+
+  ai_research:
+    enabled: true
+    keywords:
+      - research scientist
+      - research engineer
+      - research intern
+      - machine learning
+      - " ml "
+      - deep learning
+      - ai resident
+      - applied scientist
+      - research associate
+
+  research_fellowship:
+    enabled: true
+    keywords:
+      - fellowship
+      - fellow
+      - residency
+      - resident
+      - scholar
+      - scholars program
+
+  big_tech_swe:
+    enabled: true
+    keywords:
+      - software engineer
+      - software engineering
+      - software development
+      - " swe "
+      - " sde"
+      - developer
+      - backend
+      - frontend
+      - full stack
+      - full-stack
+      - infrastructure
+
+  # Product management (disabled by default - great for non-SWE friends).
+  product_management:
+    enabled: false
+    keywords:
+      - product manager
+      - product management
+      - product management intern
+      - product intern
+      - associate product manager
+      - technical product manager
+      - apm intern
+
+  # Mechanical / hardware / general engineering (disabled by default).
+  hardware_mecheng:
+    enabled: false
+    keywords:
+      - mechanical engineer
+      - mechanical engineering
+      - mechanical design
+      - hardware engineer
+      - hardware engineering
+      - hardware intern
+      - mechatronics
+      - robotics engineer
+      - manufacturing engineer
+      - controls engineer
+      - systems engineer
+      - test engineer
+      - design engineer
+      - thermal engineer
+      - electrical engineer
+
+  # Non-application opportunities (career fairs, hackathons, insight/early-career
+  # programs, conferences). Mostly arrive via the Zero2Sudo screenshot ingester.
+  nonlinear:
+    enabled: true
+    keywords:
+      - career fair
+      - hackathon
+      - insight
+      - early insight
+      - early career
+      - women in
+      - diversity
+      - workshop
+      - conference
+      - summit
+      - symposium
+      - datathon
+      - competition
+      - mentorship
+
+# ---------------------------------------------------------------------------
+# Location filtering. US + Remote by default. US detection is built in and
+# robust (all 50 state codes, "Remote", and bare-city forms like NYC / SF), so
+# you normally don't need to list anything here. `allow_tokens` just adds extra
+# places you want to permit (e.g. keep Canadian cities too). Set mode: any to
+# disable location filtering entirely.
+# ---------------------------------------------------------------------------
+location:
+  mode: us_and_remote          # us_and_remote | any
+  keep_when_unknown: true
+  # Extra places to permit beyond the built-in US + Remote detection.
+  # e.g. allow_tokens: [toronto, vancouver, canada]
+  allow_tokens: []
+
+# ---------------------------------------------------------------------------
+# Priority firms. Matches here set the Priority column to "High" so the best
+# opportunities sort to the top of your sheet. Matching is case-insensitive
+# substring on the company name.
+# ---------------------------------------------------------------------------
+priority_firms:
+  ai_labs:
+    - openai
+    - anthropic
+    - google deepmind
+    - deepmind
+    - mistral
+    - "xai"
+    - cohere
+    - meta ai
+    - "fair"
+    - microsoft research
+    - nvidia
+    - thinking machines
+    - safe superintelligence
+    - "ssi"
+    - inflection
+    - ai2
+    - allen institute
+  quant:
+    - citadel
+    - citadel securities
+    - hudson river trading
+    - "hrt"
+    - jane street
+    - two sigma
+    - "drw"
+    - susquehanna
+    - "sig"
+    - jump trading
+    - jump
+    - optiver
+    - "imc"
+    - five rings
+    - cubist
+    - point72
+    - "de shaw"
+    - "d.e. shaw"
+    - de shaw
+    - virtu
+    - akuna
+    - aquatic
+    - arrowstreet
+    - qube
+    - "pdt"
+    - radix
+    - voloridge
+    - tower research
+    - old mission
+    - wolverine
+    - group one
+    - marshall wace
+    - millennium
+    - balyasny
+  big_tech:
+    - google
+    - meta
+    - facebook
+    - amazon
+    - apple
+    - microsoft
+    - netflix
+    - nvidia
+    - stripe
+    - databricks
+    - tiktok
+    - bytedance
+    - uber
+    - lyft
+    - airbnb
+    - linkedin
+    - salesforce
+    - oracle
+    - adobe
+    - snap
+    - snapchat
+    - pinterest
+    - dropbox
+    - coinbase
+    - robinhood
+    - palantir
+    - snowflake
+    - doordash
+    - instacart
+    - roblox
+    - reddit
+    - spotify
+    - datadog
+    - cloudflare
+    - atlassian
+    - block
+    - square
+    - paypal
+    - twitch
+    - discord
+    - notion
+    - figma
+    - plaid
+    - ramp
+    - scale ai
+    - samsara
+    - servicenow
+    - intuit
+    - qualcomm
+    - amd
+    - intel
+    - ibm
+    - vmware
+    - workday
+    - twilio
+    - okta
+    - mongodb
+    - confluent
+    - hubspot
+    - asana
+    - waymo
+    - cruise
+    - tesla
+    - spacex
+    - anduril
+    - rivian
+
+# Companies so good you'd take a FULL-TIME role, not just an internship.
+s_tier:
+  - openai
+  - anthropic
+  - google deepmind
+  - deepmind
+  - jane street
+  - citadel securities
+  - citadel
+  - hudson river trading
+  - two sigma
+  - jump trading
+  - google
+  - meta
+  - nvidia
+
+# ---------------------------------------------------------------------------
+# Work authorization. You are not silently filtered out; instead roles are
+# flagged in the Work Auth column so you can decide.
+# ---------------------------------------------------------------------------
+work_auth:
+  needs_sponsorship: false      # set true if you need visa sponsorship
+  flag_us_citizen_required: true
+  flag_no_sponsorship: true
+  exclude_us_citizen_required: false
+  exclude_no_sponsorship: false
+
+# ---------------------------------------------------------------------------
+# Optional LLM relevance pass. Off unless a key is present + enabled here.
+# When disabled, filtering is fully deterministic and free.
+# ---------------------------------------------------------------------------
+llm_relevance:
+  enabled: false
+  model: gpt-4o-mini
+  # Short description of you, injected as context when scoring borderline roles.
+  # Replace this with your own background (major, year, target roles, strengths)
+  # for smarter Match/Maybe tagging. Optional - only used if llm_relevance is on.
+  profile_summary: >
+    A university student looking for internships. Edit this line with your major,
+    year, the kinds of roles you want, and your key strengths.

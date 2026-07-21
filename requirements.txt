@@ -1,0 +1,6 @@
+requests>=2.31
+PyYAML>=6.0
+gspread>=6.0
+google-auth>=2.30
+# Optional: only needed for LLM relevance scoring, screenshot OCR, and AI-lab page extraction.
+openai>=1.40
