@@ -9,6 +9,11 @@ on:
 jobs:
   radar:
     runs-on: ubuntu-latest
+    # Don't run on the template repo itself (it has no sheet to write to). Any
+    # copy made via "Use this template" has a different repo name and runs
+    # normally. This keeps the template's Actions tab clean - no pointless runs,
+    # no failure notifications.
+    if: github.repository != 'thetechdude124/job-radar-template'
     env:
       SHEET_ID: ${{ secrets.SHEET_ID }}
       GCP_SA_JSON: ${{ secrets.GCP_SA_JSON }}
