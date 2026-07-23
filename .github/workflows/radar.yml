@@ -9,22 +9,37 @@ on:
 jobs:
   radar:
     runs-on: ubuntu-latest
+    env:
+      SHEET_ID: ${{ secrets.SHEET_ID }}
+      GCP_SA_JSON: ${{ secrets.GCP_SA_JSON }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
+      # Skip gracefully (green) until the Google secrets are configured, so a
+      # freshly-created copy of this template doesn't show scary red failures.
+      - name: Check configuration
+        id: cfg
+        run: |
+          if [ -n "$SHEET_ID" ] && [ -n "$GCP_SA_JSON" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::SHEET_ID / GCP_SA_JSON secrets are not set yet, so there is nothing to write to. Finish the steps in SETUP.md, then re-run. Skipping for now."
+          fi
+
       - uses: actions/setup-python@v5
+        if: steps.cfg.outputs.ready == 'true'
         with:
           python-version: "3.12"
           cache: pip
 
       - name: Install dependencies
+        if: steps.cfg.outputs.ready == 'true'
         run: pip install -r requirements.txt
 
       - name: Run pipeline
+        if: steps.cfg.outputs.ready == 'true'
         env:
           RADAR_BACKEND: google
-          SHEET_ID: ${{ secrets.SHEET_ID }}
-          GCP_SA_JSON: ${{ secrets.GCP_SA_JSON }}
-          # Optional - only needed if you enable llm_relevance / ai_lab_pages:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python -m radar.pipeline
